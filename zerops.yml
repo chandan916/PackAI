@@ -10,7 +10,7 @@ zerops:
       base: nodejs@20
       buildCommands:
         - cd packai/backend
-        - npm ci
+        - npm install
         - npx prisma generate
         - npx prisma db push
         - npx ts-node prisma/seed.ts
@@ -41,7 +41,7 @@ zerops:
       base: nodejs@20
       buildCommands:
         - cd packai/frontend
-        - npm ci
+        - npm install
         - npm run build
       deployFiles:
         - packai/frontend/.next
