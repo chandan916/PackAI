@@ -27,7 +27,7 @@ zerops:
       envVariables:
         PORT: 5000
         DATABASE_URL: "file:./dev.db"
-      start: cd packai/backend && node dist/server.js
+      start: node packai/backend/dist/server.js
 
   # ==========================================
   # 2. PackAI Frontend Service (Next.js)
@@ -55,4 +55,4 @@ zerops:
         PORT: 3000
         HOSTNAME: "0.0.0.0"
         NEXT_PUBLIC_API_URL: "https://${backend_hostname}:5000/api"
-      start: cd packai/frontend && node_modules/.bin/next start -H 0.0.0.0 -p 3000
+      start: npm --prefix packai/frontend start
