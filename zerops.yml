@@ -14,11 +14,7 @@ zerops:
         - cd packai/backend && npm install
         - cd packai/backend && npx prisma generate
         - cd packai/backend && npm run build
-      deployFiles:
-        - packai/backend/dist
-        - packai/backend/prisma
-        - packai/backend/package.json
-        - packai/backend/node_modules
+      deployFiles: ./
     run:
       base: nodejs@20
       ports:
@@ -38,12 +34,7 @@ zerops:
       buildCommands:
         - cd packai/frontend && npm install
         - cd packai/frontend && npm run build
-      deployFiles:
-        - packai/frontend/.next
-        - packai/frontend/public
-        - packai/frontend/next.config.mjs
-        - packai/frontend/package.json
-        - packai/frontend/node_modules
+      deployFiles: ./
     run:
       base: nodejs@20
       ports:
