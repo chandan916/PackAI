@@ -8,6 +8,8 @@ zerops:
   - setup: backend
     build:
       base: nodejs@20
+      prepareCommands:
+        - apt-get update && apt-get install -y openssl || apk add --no-cache openssl || true
       buildCommands:
         - cd packai/backend && npm install
         - cd packai/backend && npx prisma generate
@@ -33,8 +35,11 @@ zerops:
   - setup: frontend
     build:
       base: nodejs@20
+      prepareCommands:
+        - apk add --no-cache libc6-compat || true
       envVariables:
-        NEXT_PUBLIC_API_URL: "https://${backend_hostname}:5000/api"
+        NEXT_PUBLIC_API_URL: "/api"
+        BACKEND_INTERNAL_URL: "http://${backend_hostname}:5000"
       buildCommands:
         - cd packai/frontend && npm install
         - cd packai/frontend && npm run build
@@ -52,5 +57,5 @@ zerops:
       envVariables:
         PORT: 3000
         HOSTNAME: "0.0.0.0"
-        NEXT_PUBLIC_API_URL: "https://${backend_hostname}:5000/api"
+        BACKEND_INTERNAL_URL: "http://${backend_hostname}:5000"
       start: npm --prefix packai/frontend start
