@@ -1,0 +1,53 @@
+# Dependencies
+**/node_modules/
+node_modules/
+.pnp
+.pnp.js
+.yarn/*
+!.yarn/patches
+!.yarn/plugins
+!.yarn/releases
+!.yarn/sdks
+!.yarn/versions
+
+# Environment variables & Secrets (CRITICAL)
+**/.env
+**/.env.*
+**/*.env
+.env
+.env.*
+*.env
+!.env.example
+!**/.env.example
+
+# SQLite Database & Storage
+**/*.db
+**/*.db-journal
+**/*.sqlite
+**/*.sqlite3
+packai/backend/dev.db
+packai/backend/prisma/dev.db
+
+# Build Outputs (Next.js, TypeScript dist, etc.)
+**/.next/
+**/out/
+**/build/
+**/dist/
+.next/
+out/
+build/
+dist/
+
+# Logs
+**/logs/
+**/*.log
+npm-debug.log*
+yarn-debug.log*
+pnpm-debug.log*
+
+# OS / Editor Files
+.DS_Store
+Thumbs.db
+**/.vscode/
+**/.idea/
+

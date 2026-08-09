@@ -1,0 +1,20 @@
+# Zerops Project Template for PackAI
+# You can paste this into Zerops Dashboard -> Add New Project -> Import YAML/JSON
+
+project:
+  name: packai
+
+services:
+  # Backend Node.js Service
+  - hostname: backend
+    type: nodejs@20
+    minContainers: 1
+    maxContainers: 2
+    envSecrets:
+      GEMINI_API_KEY: ""
+
+  # Frontend Node.js Service
+  - hostname: frontend
+    type: nodejs@20
+    minContainers: 1
+    maxContainers: 2

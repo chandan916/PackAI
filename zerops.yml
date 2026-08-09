@@ -1,0 +1,62 @@
+# Zerops Recipe for PackAI (3D Container Packing Optimizer)
+# Documentation: https://docs.zerops.io/references/zerops-yml
+
+zerops:
+  # ==========================================
+  # 1. PackAI Backend Service (Express + TS)
+  # ==========================================
+  - setup: backend
+    build:
+      base: nodejs@20
+      buildCommands:
+        - cd packai/backend
+        - npm ci
+        - npx prisma generate
+        - npx prisma db push
+        - npx ts-node prisma/seed.ts
+        - npm run build
+      deployFiles:
+        - packai/backend/dist
+        - packai/backend/prisma
+        - packai/backend/dev.db
+        - packai/backend/package.json
+        - packai/backend/node_modules
+      cache:
+        - packai/backend/node_modules
+    run:
+      base: nodejs@20
+      ports:
+        - port: 5000
+          httpSupport: true
+      envVariables:
+        PORT: 5000
+        DATABASE_URL: "file:./dev.db"
+      start: cd packai/backend && npm run start
+
+  # ==========================================
+  # 2. PackAI Frontend Service (Next.js)
+  # ==========================================
+  - setup: frontend
+    build:
+      base: nodejs@20
+      buildCommands:
+        - cd packai/frontend
+        - npm ci
+        - npm run build
+      deployFiles:
+        - packai/frontend/.next
+        - packai/frontend/public
+        - packai/frontend/package.json
+        - packai/frontend/node_modules
+      cache:
+        - packai/frontend/node_modules
+        - packai/frontend/.next/cache
+    run:
+      base: nodejs@20
+      ports:
+        - port: 3000
+          httpSupport: true
+      envVariables:
+        PORT: 3000
+        NEXT_PUBLIC_API_URL: "https://${backend_hostname}:5000/api"
+      start: cd packai/frontend && npx next start -p 3000

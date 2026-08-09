@@ -1,0 +1,43 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = "file:./dev.db"
+}
+
+model Container {
+  id        String   @id @default(uuid())
+  name      String
+  length    Float
+  width     Float
+  height    Float
+  createdAt DateTime @default(now())
+
+  @@map("containers")
+}
+
+model PackageType {
+  id        String   @id @default(uuid())
+  name      String
+  length    Float
+  width     Float
+  height    Float
+  weight    Float?   @default(0)
+  createdAt DateTime @default(now())
+
+  @@map("package_types")
+}
+
+model OptimizationRun {
+  id                   String   @id @default(uuid())
+  containerCount       Int
+  averageUtilization   Float
+  emptySpacePercentage Float
+  inputData            String
+  resultData           String
+  createdAt            DateTime @default(now())
+
+  @@map("optimization_runs")
+}
