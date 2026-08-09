@@ -8,26 +8,19 @@ zerops:
   - setup: backend
     build:
       base: nodejs@20
-      prepareCommands:
-        - apt-get update && apt-get install -y openssl libssl-dev || apk add --no-cache openssl || true
       buildCommands:
         - cd packai/backend && npm install
         - cd packai/backend && npx prisma generate
-        - cd packai/backend && npx prisma db push
-        - cd packai/backend && npx ts-node prisma/seed.ts
         - cd packai/backend && npm run build
       deployFiles:
         - packai/backend/dist
         - packai/backend/prisma
-        - packai/backend/dev.db
         - packai/backend/package.json
         - packai/backend/node_modules
       cache:
         - packai/backend/node_modules
     run:
       base: nodejs@20
-      prepareCommands:
-        - apt-get update && apt-get install -y openssl libssl-dev || apk add --no-cache openssl || true
       ports:
         - port: 5000
           httpSupport: true

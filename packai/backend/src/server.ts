@@ -2,6 +2,7 @@ import express from 'express';
 import cors from 'cors';
 import dotenv from 'dotenv';
 import apiRoutes from './routes/optimize.routes';
+import { initDatabase } from './lib/prisma';
 
 dotenv.config();
 
@@ -19,6 +20,8 @@ app.get('/health', (req, res) => {
   res.status(200).json({ status: 'ok', service: 'PackAI Backend' });
 });
 
-app.listen(PORT, () => {
+app.listen(PORT, async () => {
   console.log(`📦 PackAI Backend server running on http://localhost:${PORT}`);
+  // Initialize SQLite tables and default presets automatically
+  await initDatabase();
 });
