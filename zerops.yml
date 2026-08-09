@@ -17,8 +17,6 @@ zerops:
         - packai/backend/prisma
         - packai/backend/package.json
         - packai/backend/node_modules
-      cache:
-        - packai/backend/node_modules
     run:
       base: nodejs@20
       ports:
@@ -43,9 +41,6 @@ zerops:
         - packai/frontend/public
         - packai/frontend/package.json
         - packai/frontend/node_modules
-      cache:
-        - packai/frontend/node_modules
-        - packai/frontend/.next/cache
     run:
       base: nodejs@20
       ports:
