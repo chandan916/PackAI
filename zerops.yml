@@ -35,11 +35,6 @@ zerops:
   - setup: frontend
     build:
       base: nodejs@20
-      prepareCommands:
-        - apk add --no-cache libc6-compat || true
-      envVariables:
-        NEXT_PUBLIC_API_URL: "/api"
-        BACKEND_INTERNAL_URL: "http://${backend_hostname}:5000"
       buildCommands:
         - cd packai/frontend && npm install
         - cd packai/frontend && npm run build
@@ -57,5 +52,5 @@ zerops:
       envVariables:
         PORT: 3000
         HOSTNAME: "0.0.0.0"
-        BACKEND_INTERNAL_URL: "http://${backend_hostname}:5000"
+        BACKEND_INTERNAL_URL: "http://backend:5000"
       start: npm --prefix packai/frontend start
