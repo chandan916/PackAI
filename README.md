@@ -9,21 +9,28 @@
 [![Google Gemini](https://img.shields.io/badge/Google_Gemini-Live_AI-4285F4?style=flat&logo=google)](https://ai.google.dev/)
 [![Zerops](https://img.shields.io/badge/Deployed_on-Zerops-00E599?style=flat)](https://zerops.io/)
 
-**PackAI** is an industrial-grade, AI-assisted 3D container packing and spatial layout optimization platform designed specifically for the global shipping, freight forwarding, warehousing, and logistics industries.
+**PackAI** is an industrial-grade, AI-assisted 3D container packing and spatial layout optimization platform designed for the global shipping, freight forwarding, warehousing, and supply chain industries.
+
+Built with a **dual-delivery architecture**, PackAI serves both as an **interactive operational tool** for warehouse teams and as a **headless B2B REST API** that third-party shipping companies, 3PL providers, and enterprise systems (ERP/WMS) can integrate directly into their automated logistics pipelines.
 
 ---
 
-## 🎯 Purpose & Industry Use Case
+## 🎯 Purpose & Dual-Use Industry Value
 
-In global shipping and supply chain operations, shipping empty air costs billions annually:
-* **Container Underutilization**: Up to 25% of standard ocean container space is wasted due to sub-optimal manual packing strategies.
-* **Cargo Damage Risks**: Improper weight distribution and stacking sequences lead to cargo shifting and damage during transit.
-* **Complex Calculations**: Warehouse staff spend hours manually determining how mixed-dimension cartons fit onto standard pallets or intermodal shipping containers.
+In global ocean freight, air cargo, and land transport, **shipping empty container space costs billions annually**:
+* **Container Underutilization**: Up to 25% of standard container volume is lost due to manual guesswork and sub-optimal stacking.
+* **Cargo Damage & Safety Violations**: Sub-optimal weight distribution, improper center of gravity, and heavy-on-fragile stacking lead to expensive in-transit cargo damage and axle-load compliance fines.
+* **Operational Inefficiencies**: Dispatchers and warehouse loading crews spend hours calculating multi-SKU carton arrangements manually.
 
-### How PackAI Transforms Operations:
-1. **Algorithmic 3D Spatial Packing**: Calculates high-density 3D placement of multi-dimensional packages into ISO containers (20ft, 40ft, High Cube) or pallets using 3D Best-Fit Decreasing heuristics.
-2. **Interactive 3D WebGL Visualization**: Logistics operators can inspect the loaded container in 360° 3D with layered visibility, package color-coding, and bounding dimensions.
-3. **Generative AI Load Analysis (Google Gemini)**: Automatically inspects packing runs to produce actionable loading sequence recommendations, center-of-gravity warnings, fragile item protection tips, and freight cost savings estimates.
+### 🏢 1. As an Internal Operational Tool (For Logistics & Warehouse Teams)
+* **Interactive 3D Simulation**: Loading crews and planners can visually simulate container packing in real-time WebGL 3D before a single carton is physically moved.
+* **Layer-by-Layer Stacking Guidance**: Provides visual step-by-step loading plans, reducing loading dock turnaround times.
+* **AI-Powered Safety & Cost Analysis**: Evaluates center of gravity, fragile item placement, and estimates container freight savings using Google Gemini Generative AI.
+
+### 🔌 2. As an Embeddable REST API (For External Shipping Companies & 3PLs)
+* **WMS / ERP Integration**: Seamlessly connects into existing systems (SAP, Oracle SCM, Manhattan Associates, Blue Yonder) via standard JSON endpoints.
+* **Automated Freight Quoting**: Shipping platforms and e-commerce checkouts can programmatically calculate the exact number and size of containers needed for bulk orders.
+* **Multi-Tenant / Headless Automation**: Batch-process thousands of shipment manifests per hour to auto-assign optimal container types and calculate cubic utilization scores.
 
 ---
 
@@ -32,15 +39,16 @@ In global shipping and supply chain operations, shipping empty air costs billion
 ```mermaid
 graph TD
     User["Logistics Operator / Warehouse Manager"] -->|Interactive Web UI| Frontend["Next.js 14 Frontend (Port 3000)"]
+    ExternalCompany["3rd-Party Shipping Company / 3PL / ERP / WMS"] -->|B2B REST API Integration| Backend["Express.js + TypeScript Backend (Port 5000)"]
     
-    subgraph "Frontend Layer"
+    subgraph "Frontend Layer (Interactive Tool)"
         Frontend --> ThreeJS["Three.js 3D Container Canvas"]
         Frontend --> Dashboard["Packing Analytics & Preset Controls"]
         Frontend --> DynamicProxy["Next.js Dynamic API Proxy (/api/[...path])"]
     end
 
     subgraph "Private Network / Localhost"
-        DynamicProxy -->|HTTP Internal Request| Backend["Express.js + TypeScript Backend (Port 5000)"]
+        DynamicProxy -->|Internal Proxy| Backend
     end
 
     subgraph "Backend Processing Layer"
