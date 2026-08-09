@@ -33,12 +33,15 @@ zerops:
   - setup: frontend
     build:
       base: nodejs@20
+      envVariables:
+        NEXT_PUBLIC_API_URL: "https://${backend_hostname}:5000/api"
       buildCommands:
         - cd packai/frontend && npm install
         - cd packai/frontend && npm run build
       deployFiles:
         - packai/frontend/.next
         - packai/frontend/public
+        - packai/frontend/next.config.mjs
         - packai/frontend/package.json
         - packai/frontend/node_modules
     run:
